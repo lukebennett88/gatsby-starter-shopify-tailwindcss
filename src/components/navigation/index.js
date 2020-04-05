@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
-import reduce from 'lodash/reduce';
 
 import StoreContext from '../../context/StoreContext';
 
@@ -10,7 +9,7 @@ const useQuantity = () => {
     store: { checkout },
   } = useContext(StoreContext);
   const items = checkout ? checkout.lineItems : [];
-  const total = reduce(items, (acc, item) => acc + item.quantity, 0);
+  const total = items.reduce((acc, item) => acc + item.quantity, 0);
   return [total !== 0, total];
 };
 

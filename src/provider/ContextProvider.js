@@ -10,6 +10,7 @@ const client = Client.buildClient({
 
 const ContextProvider = ({ children }) => {
   const initialStoreState = {
+    store: { checkout: [] },
     client,
     adding: false,
     checkout: { lineItems: [] },
