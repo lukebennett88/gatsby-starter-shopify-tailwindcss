@@ -1,36 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
 
-import ContextProvider from '../provider/ContextProvider';
-
-import { GlobalStyle } from '../utils/styles';
-import Navigation from './Navigation';
+import Navigation from './navigation';
 import { useGraphQL } from '../hooks/use-graphql';
-
-const Wrapper = styled.div`
-  margin: 0 auto;
-  max-width: 960px;
-  padding: 0px 1.0875rem 1.45rem;
-`;
 
 const Layout = ({ children }) => {
   const { site } = useGraphQL();
   return (
-    <ContextProvider>
-      <GlobalStyle />
-      <>
-        <Navigation siteTitle={site.siteMetadata.title} />
-        <Wrapper>
-          {children}
-          <footer>
-            © {new Date().getFullYear()}, Built with
-            {` `}
-            <a href="https://www.gatsbyjs.org">Gatsby</a>
-          </footer>
-        </Wrapper>
-      </>
-    </ContextProvider>
+    <div className="flex flex-col min-h-screen">
+      <Navigation siteTitle={site.siteMetadata.title} />
+      <main className="flex-1 w-full max-w-5xl p-6 mx-auto">{children}</main>
+      <footer className="w-full max-w-5xl p-6 mx-auto">
+        © {new Date().getFullYear()}, Built with
+        {` `}
+        <a href="https://www.gatsbyjs.org">Gatsby</a>
+      </footer>
+    </div>
   );
 };
 

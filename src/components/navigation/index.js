@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import reduce from 'lodash/reduce';
 import PropTypes from 'prop-types';
+import { Link } from 'gatsby';
+import reduce from 'lodash/reduce';
 
 import StoreContext from '../../context/StoreContext';
-import { CartCounter, Container, MenuLink, Wrapper } from './styles';
 
 const useQuantity = () => {
   const {
@@ -18,15 +18,21 @@ const Navigation = ({ siteTitle }) => {
   const [hasItems, quantity] = useQuantity();
 
   return (
-    <Wrapper>
-      <Container>
-        <MenuLink to="/">{siteTitle}</MenuLink>
-        <MenuLink to="/cart">
-          {hasItems && <CartCounter>{quantity}</CartCounter>}
+    <div className="font-bold text-white bg-indigo-700">
+      <div className="flex items-baseline justify-between max-w-5xl p-6 mx-auto">
+        <Link to="/" className="text-2xl">
+          {siteTitle}
+        </Link>
+        <Link to="/cart" className="flex items-center text-2xl">
           Cart 🛍
-        </MenuLink>
-      </Container>
-    </Wrapper>
+          {hasItems && (
+            <div className="flex items-center justify-center w-6 h-6 ml-2 text-sm text-indigo-700 bg-white rounded-full">
+              {quantity}
+            </div>
+          )}
+        </Link>
+      </div>
+    </div>
   );
 };
 

@@ -1,26 +1,19 @@
 import React from 'react';
 import { graphql } from 'gatsby';
+import Img from 'gatsby-image';
 
 import Layout from '../../components/layout';
 import SEO from '../../components/seo';
-import ProductForm from '../../components/ProductForm';
-import {
-  Img,
-  Container,
-  TwoColumnGrid,
-  GridLeft,
-  GridRight,
-} from '../../utils/styles';
-import { ProductTitle, ProductDescription } from './styles';
+import ProductForm from '../../components/product-form';
 
 const ProductPage = ({ data }) => {
   const product = data.shopifyProduct;
   return (
     <Layout>
       <SEO title={product.title} description={product.description} />
-      <Container>
-        <TwoColumnGrid>
-          <GridLeft>
+      <div className="max-w-5xl mx-auto">
+        <div className="md:grid md:grid-cols-3">
+          <div className="col-span-1">
             {product.images.map((image) => (
               <Img
                 fluid={image.localFile.childImageSharp.fluid}
@@ -28,16 +21,16 @@ const ProductPage = ({ data }) => {
                 alt={product.title}
               />
             ))}
-          </GridLeft>
-          <GridRight>
-            <ProductTitle>{product.title}</ProductTitle>
-            <ProductDescription
+          </div>
+          <div className="col-span-2">
+            <h1 className="text-4xl font-bold break-words">{product.title}</h1>
+            <div
               dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
             />
             <ProductForm product={product} />
-          </GridRight>
-        </TwoColumnGrid>
-      </Container>
+          </div>
+        </div>
+      </div>
     </Layout>
   );
 };

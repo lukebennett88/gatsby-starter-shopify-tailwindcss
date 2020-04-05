@@ -3,7 +3,7 @@ import find from 'lodash/find';
 import isEqual from 'lodash/isEqual';
 import PropTypes from 'prop-types';
 
-import StoreContext from '../../context/StoreContext';
+import StoreContext from '../context/StoreContext';
 
 const ProductForm = ({ product }) => {
   const {
@@ -130,13 +130,16 @@ const ProductForm = ({ product }) => {
         value={quantity}
       />
       <br />
-      <button
-        type="submit"
-        disabled={!available || adding}
-        onClick={handleAddToCart}
-      >
-        Add to Cart
-      </button>
+      <span className="inline-flex rounded-md shadow-sm">
+        <button
+          type="submit"
+          disabled={!available || adding}
+          onClick={handleAddToCart}
+          className="inline-flex items-center px-4 py-2 text-base font-medium leading-6 text-white transition duration-150 ease-in-out bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700"
+        >
+          Add to Cart
+        </button>
+      </span>
       {!available && <p>This Product is out of Stock!</p>}
     </>
   );

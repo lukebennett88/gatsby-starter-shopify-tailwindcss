@@ -9,6 +9,30 @@ export function useGraphQL() {
             title
           }
         }
+        allShopifyProduct(sort: { fields: [createdAt], order: DESC }) {
+          edges {
+            node {
+              id
+              title
+              handle
+              createdAt
+              images {
+                id
+                originalSrc
+                localFile {
+                  childImageSharp {
+                    fluid(maxWidth: 910) {
+                      ...GatsbyImageSharpFluid_withWebp_tracedSVG
+                    }
+                  }
+                }
+              }
+              variants {
+                price
+              }
+            }
+          }
+        }
       }
     `
   );
