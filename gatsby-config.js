@@ -12,7 +12,6 @@ module.exports = {
     author: '@luke_bennett_',
   },
   plugins: [
-    'gatsby-plugin-layout',
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-sharp',
     'gatsby-transformer-sharp',

@@ -5,3 +5,14 @@
  */
 
 // You can delete this file if you're not using it
+import PropTypes from 'prop-types';
+import React from 'react';
+import ContextProvider from './src/provider/ContextProvider';
+
+export const wrapRootElement = ({ element }) => (
+  <ContextProvider>{element}</ContextProvider>
+);
+
+wrapRootElement.propTypes = {
+  element: PropTypes.node.isRequired,
+};

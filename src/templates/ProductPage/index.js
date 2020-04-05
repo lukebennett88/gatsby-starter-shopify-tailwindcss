@@ -1,6 +1,7 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 
+import Layout from '../../components/layout';
 import SEO from '../../components/seo';
 import ProductForm from '../../components/ProductForm';
 import {
@@ -15,7 +16,7 @@ import { ProductTitle, ProductDescription } from './styles';
 const ProductPage = ({ data }) => {
   const product = data.shopifyProduct;
   return (
-    <>
+    <Layout>
       <SEO title={product.title} description={product.description} />
       <Container>
         <TwoColumnGrid>
@@ -37,7 +38,7 @@ const ProductPage = ({ data }) => {
           </GridRight>
         </TwoColumnGrid>
       </Container>
-    </>
+    </Layout>
   );
 };
 
