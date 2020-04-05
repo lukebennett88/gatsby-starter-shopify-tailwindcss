@@ -8,18 +8,20 @@ const Navigation = ({ siteTitle }) => {
   const [hasItems, quantity] = useQuantity();
 
   return (
-    <div className="font-bold text-white bg-indigo-700">
+    <div className="sticky top-0 z-10 font-bold text-white bg-indigo-700">
       <div className="flex items-baseline justify-between max-w-5xl p-6 mx-auto">
         <Link to="/" className="text-2xl">
           {siteTitle}
         </Link>
-        <Link to="/cart" className="flex items-center text-2xl">
-          Cart 🛍
+        <Link to="/cart" className="relative flex items-center text-2xl">
           {hasItems && (
-            <div className="flex items-center justify-center w-6 h-6 ml-2 text-sm text-indigo-700 bg-white rounded-full">
-              {quantity}
+            <div className="absolute left-0 transform -translate-x-full">
+              <div className="flex items-center justify-center w-6 h-6 mr-3 text-sm leading-none text-indigo-700 bg-white rounded-full">
+                {quantity}
+              </div>
             </div>
           )}
+          Cart 🛍
         </Link>
       </div>
     </div>
