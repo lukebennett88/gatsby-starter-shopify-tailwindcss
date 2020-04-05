@@ -7,6 +7,7 @@
   "dependencies": {
     "@emotion/core": "^10.0.22",
     "@emotion/styled": "^10.0.22",
+    "dotenv": "^8.2.0",
     "gatsby": "^2.17.4",
     "gatsby-image": "^2.2.29",
     "gatsby-plugin-google-analytics": "^2.0.13",
@@ -14,7 +15,6 @@
     "gatsby-plugin-manifest": "^2.2.23",
     "gatsby-plugin-offline": "^3.0.16",
     "gatsby-plugin-react-helmet": "^3.1.13",
-    "gatsby-plugin-root-import": "^2.0.5",
     "gatsby-plugin-sharp": "^2.2.32",
     "gatsby-source-filesystem": "^2.1.33",
     "gatsby-source-shopify": "^3.0.24",
