@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import reduce from 'lodash/reduce';
 import PropTypes from 'prop-types';
 
-import StoreContext from '~/context/StoreContext';
+import StoreContext from '../../context/StoreContext';
 import { CartCounter, Container, MenuLink, Wrapper } from './styles';
 
 const useQuantity = () => {
