@@ -1,4 +1,8 @@
 const dotenv = require('dotenv');
+const postCssImport = require('postcss-import');
+const tailwindcss = require('tailwindcss');
+const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
 
 dotenv.config({
   path: `.env.${process.env.NODE_ENV}`,
@@ -25,6 +29,25 @@ module.exports = {
         theme_color: '#663399',
         display: 'minimal-ui',
         icon: 'src/images/gatsby-icon.png', // This path is relative to the root of the site.
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-postcss',
+      options: {
+        postCssPlugins: [
+          postCssImport,
+          tailwindcss('./tailwind.config.js'),
+          ...(process.env.NODE_ENV === 'production'
+            ? [autoprefixer, cssnano]
+            : []),
+        ],
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-purgecss',
+      options: {
+        tailwind: true,
+        purgeOnly: ['src/css/tailwind.css'],
       },
     },
     {

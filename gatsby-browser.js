@@ -8,6 +8,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import ContextProvider from './src/provider/ContextProvider';
+import './src/css/tailwind.css';
 
 export const wrapRootElement = ({ element }) => (
   <ContextProvider>{element}</ContextProvider>
