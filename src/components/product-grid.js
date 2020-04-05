@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'gatsby';
 import Img from 'gatsby-image';
 
-import StoreContext from '../context/StoreContext';
+import { StoreContext } from '../context/StoreContext';
 import { useGraphQL } from '../hooks';
 
 const ProductGrid = () => {
@@ -13,7 +13,7 @@ const ProductGrid = () => {
 
   const getPrice = (price) =>
     Intl.NumberFormat(undefined, {
-      currency: checkout.currencyCode ? checkout.currencyCode : 'EUR',
+      currency: checkout.currencyCode ? checkout.currencyCode : 'AUD',
       minimumFractionDigits: 2,
       style: 'currency',
     }).format(parseFloat(price || 0));

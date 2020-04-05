@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 
-import StoreContext from '../../context/StoreContext';
+import { StoreContext } from '../../context/StoreContext';
 
 const LineItem = ({ lineItem }) => {
   const {

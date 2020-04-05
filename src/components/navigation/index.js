@@ -1,17 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
 
-import StoreContext from '../../context/StoreContext';
-
-const useQuantity = () => {
-  const {
-    store: { checkout },
-  } = useContext(StoreContext);
-  const items = checkout ? checkout.lineItems : [];
-  const total = items.reduce((acc, item) => acc + item.quantity, 0);
-  return [total !== 0, total];
-};
+import { useQuantity } from '../../hooks';
 
 const Navigation = ({ siteTitle }) => {
   const [hasItems, quantity] = useQuantity();
