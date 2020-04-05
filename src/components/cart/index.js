@@ -12,13 +12,13 @@ const Cart = () => {
     window.open(checkout.webUrl);
   };
 
-  const line_items = checkout.lineItems.map((line_item) => {
-    return <LineItem key={line_item.id.toString()} line_item={line_item} />;
+  const lineItems = checkout.lineItems.map((lineItem) => {
+    return <LineItem key={lineItem.id.toString()} lineItem={lineItem} />;
   });
 
   return (
     <div>
-      {line_items}
+      {lineItems}
       <h2>Subtotal</h2>
       <p>$ {checkout.subtotalPrice}</p>
       <br />
@@ -30,6 +30,7 @@ const Cart = () => {
       <br />
       <button
         onClick={handleCheckout}
+        type="button"
         disabled={checkout.lineItems.length === 0}
       >
         Check out
