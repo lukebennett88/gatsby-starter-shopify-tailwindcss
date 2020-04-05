@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Layout from '../components/layout';
-import Cart from '../components/Cart';
+import Cart from '../components/cart';
 import { Container } from '../utils/styles';
 
 const CartPage = () => (
