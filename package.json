@@ -1,12 +1,9 @@
 {
-  "name": "gatsby-shopify-starter",
-  "private": false,
-  "description": "A simple starter to build a blazing fast Shopify store quickly with Gatsby",
+  "name": "gatsby-starter-shopify-tailwindcss",
+  "private": true,
+  "description": "A simple starter to build a blazing fast Shopify store quickly with Gatsby and Tailwind",
   "version": "0.1.0",
-  "author": "Alexander Hörl <alexander.horl2@live.de>",
-  "engines": {
-    "node": "=> 10.13 < 10.11"
-  },
+  "author": "Luke Bennett <hello@lukebennett.com.au>",
   "dependencies": {
     "@emotion/core": "^10.0.22",
     "@emotion/styled": "^10.0.22",
@@ -42,19 +39,33 @@
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
-    "develop": "gatsby develop",
-    "start": "npm run develop",
-    "format": "prettier --write \"src/**/*.js\"",
-    "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\""
+    "build:serve": "yarn build && yarn serve",
+    "clean": "gatsby clean",
+    "develop": "gatsby develop --host=0.0.0.0 --open",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "start": "yarn develop",
+    "serve": "gatsby serve --host=0.0.0.0 --open"
   },
   "devDependencies": {
-    "prettier": "^1.15.2"
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-config-wesbos": "0.0.19",
+    "eslint-plugin-html": "^6.0.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^3.0.0",
+    "prettier": "^2.0.2"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+    "url": "https://github.com/lukebennett88/gatsby-starter-shopify-tailwindcss"
   },
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/lukebennett88/gatsby-starter-shopify-tailwindcss/issues"
   }
 }

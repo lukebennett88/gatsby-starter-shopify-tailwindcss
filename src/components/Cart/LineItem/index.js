@@ -1,14 +1,14 @@
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
 
-import StoreContext from '~/context/StoreContext'
-import { Wrapper } from './styles'
+import StoreContext from '~/context/StoreContext';
+import { Wrapper } from './styles';
 
-const LineItem = props => {
-  const { line_item } = props
+const LineItem = (props) => {
+  const { line_item } = props;
   const {
     removeLineItem,
     store: { client, checkout },
-  } = useContext(StoreContext)
+  } = useContext(StoreContext);
 
   const variantImage = line_item.variant.image ? (
     <img
@@ -16,17 +16,17 @@ const LineItem = props => {
       alt={`${line_item.title} product shot`}
       height="60px"
     />
-  ) : null
+  ) : null;
 
   const selectedOptions = line_item.variant.selectedOptions
     ? line_item.variant.selectedOptions.map(
-        option => `${option.name}: ${option.value} `
+        (option) => `${option.name}: ${option.value} `
       )
-    : null
+    : null;
 
   const handleRemove = () => {
-    removeLineItem(client, checkout.id, line_item.id)
-  }
+    removeLineItem(client, checkout.id, line_item.id);
+  };
 
   return (
     <Wrapper>
@@ -42,7 +42,7 @@ const LineItem = props => {
       {line_item.quantity}
       <button onClick={handleRemove}>Remove</button>
     </Wrapper>
-  )
-}
+  );
+};
 
-export default LineItem
+export default LineItem;

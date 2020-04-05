@@ -1,7 +1,7 @@
-const path = require(`path`)
+const path = require(`path`);
 
 exports.createPages = ({ graphql, actions }) => {
-  const { createPage } = actions
+  const { createPage } = actions;
   return graphql(`
     {
       allShopifyProduct {
@@ -12,7 +12,7 @@ exports.createPages = ({ graphql, actions }) => {
         }
       }
     }
-  `).then(result => {
+  `).then((result) => {
     result.data.allShopifyProduct.edges.forEach(({ node }) => {
       createPage({
         path: `/product/${node.handle}/`,
@@ -22,7 +22,7 @@ exports.createPages = ({ graphql, actions }) => {
           // in page queries as GraphQL variables.
           handle: node.handle,
         },
-      })
-    })
-  })
-}
+      });
+    });
+  });
+};

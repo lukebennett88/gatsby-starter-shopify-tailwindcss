@@ -1,29 +1,26 @@
-import React from 'react'
-import { graphql } from 'gatsby'
+import React from 'react';
+import { graphql } from 'gatsby';
 
-import SEO from '~/components/seo'
-import ProductForm from '~/components/ProductForm'
+import SEO from '~/components/seo';
+import ProductForm from '~/components/ProductForm';
 import {
   Img,
   Container,
   TwoColumnGrid,
   GridLeft,
   GridRight,
-} from '~/utils/styles'
-import {
-  ProductTitle,
-  ProductDescription
-} from './styles'
+} from '~/utils/styles';
+import { ProductTitle, ProductDescription } from './styles';
 
 const ProductPage = ({ data }) => {
-  const product = data.shopifyProduct
+  const product = data.shopifyProduct;
   return (
     <>
       <SEO title={product.title} description={product.description} />
       <Container>
         <TwoColumnGrid>
           <GridLeft>
-            {product.images.map(image => (
+            {product.images.map((image) => (
               <Img
                 fluid={image.localFile.childImageSharp.fluid}
                 key={image.id}
@@ -41,8 +38,8 @@ const ProductPage = ({ data }) => {
         </TwoColumnGrid>
       </Container>
     </>
-  )
-}
+  );
+};
 
 export const query = graphql`
   query($handle: String!) {
@@ -93,6 +90,6 @@ export const query = graphql`
       }
     }
   }
-`
+`;
 
-export default ProductPage
+export default ProductPage;

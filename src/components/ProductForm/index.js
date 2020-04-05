@@ -1,9 +1,9 @@
-import React, { useState, useContext, useEffect, useCallback } from 'react'
-import find from 'lodash/find'
-import isEqual from 'lodash/isEqual'
-import PropTypes from 'prop-types'
+import React, { useState, useContext, useEffect, useCallback } from 'react';
+import find from 'lodash/find';
+import isEqual from 'lodash/isEqual';
+import PropTypes from 'prop-types';
 
-import StoreContext from '~/context/StoreContext'
+import StoreContext from '~/context/StoreContext';
 
 const ProductForm = ({ product }) => {
   const {
@@ -11,60 +11,60 @@ const ProductForm = ({ product }) => {
     variants,
     variants: [initialVariant],
     priceRange: { minVariantPrice },
-  } = product
-  const [variant, setVariant] = useState({ ...initialVariant })
-  const [quantity, setQuantity] = useState(1)
+  } = product;
+  const [variant, setVariant] = useState({ ...initialVariant });
+  const [quantity, setQuantity] = useState(1);
   const {
     addVariantToCart,
     store: { client, adding },
-  } = useContext(StoreContext)
+  } = useContext(StoreContext);
 
   const productVariant =
-    client.product.helpers.variantForOptions(product, variant) || variant
-  const [available, setAvailable] = useState(productVariant.availableForSale)
+    client.product.helpers.variantForOptions(product, variant) || variant;
+  const [available, setAvailable] = useState(productVariant.availableForSale);
 
   const checkAvailability = useCallback(
-    productId => {
-      client.product.fetch(productId).then(fetchedProduct => {
+    (productId) => {
+      client.product.fetch(productId).then((fetchedProduct) => {
         // this checks the currently selected variant for availability
         const result = fetchedProduct.variants.filter(
-          variant => variant.id === productVariant.shopifyId
-        )
+          (variant) => variant.id === productVariant.shopifyId
+        );
         if (result.length > 0) {
-          setAvailable(result[0].available)
+          setAvailable(result[0].available);
         }
-      })
+      });
     },
     [client.product, productVariant.shopifyId, variants]
-  )
+  );
 
   useEffect(() => {
-    checkAvailability(product.shopifyId)
-  }, [productVariant, checkAvailability, product.shopifyId])
+    checkAvailability(product.shopifyId);
+  }, [productVariant, checkAvailability, product.shopifyId]);
 
   const handleQuantityChange = ({ target }) => {
-    setQuantity(target.value)
-  }
+    setQuantity(target.value);
+  };
 
   const handleOptionChange = (optionIndex, { target }) => {
-    const { value } = target
-    const currentOptions = [...variant.selectedOptions]
+    const { value } = target;
+    const currentOptions = [...variant.selectedOptions];
 
     currentOptions[optionIndex] = {
       ...currentOptions[optionIndex],
       value,
-    }
+    };
 
     const selectedVariant = find(variants, ({ selectedOptions }) =>
       isEqual(currentOptions, selectedOptions)
-    )
+    );
 
-    setVariant({ ...selectedVariant })
-  }
+    setVariant({ ...selectedVariant });
+  };
 
   const handleAddToCart = () => {
-    addVariantToCart(productVariant.shopifyId, quantity)
-  }
+    addVariantToCart(productVariant.shopifyId, quantity);
+  };
 
   /* 
   Using this in conjunction with a select input for variants 
@@ -79,21 +79,21 @@ const ProductForm = ({ product }) => {
     const match = find(variants, {
       selectedOptions: [
         {
-          name: name,
-          value: value,
+          name,
+          value,
         },
       ],
-    })
-    if (match === undefined) return true
-    if (match.availableForSale === true) return false
-    return true
-  }
+    });
+    if (match === undefined) return true;
+    if (match.availableForSale === true) return false;
+    return true;
+  };
 
   const price = Intl.NumberFormat(undefined, {
     currency: minVariantPrice.currencyCode,
     minimumFractionDigits: 2,
     style: 'currency',
-  }).format(variant.price)
+  }).format(variant.price);
 
   return (
     <>
@@ -104,9 +104,9 @@ const ProductForm = ({ product }) => {
           <select
             name={name}
             key={id}
-            onChange={event => handleOptionChange(index, event)}
+            onChange={(event) => handleOptionChange(index, event)}
           >
-            {values.map(value => (
+            {values.map((value) => (
               <option
                 value={value}
                 key={`${name}-${value}`}
@@ -139,8 +139,8 @@ const ProductForm = ({ product }) => {
       </button>
       {!available && <p>This Product is out of Stock!</p>}
     </>
-  )
-}
+  );
+};
 
 ProductForm.propTypes = {
   product: PropTypes.shape({
@@ -180,6 +180,6 @@ ProductForm.propTypes = {
     ),
   }),
   addVariantToCart: PropTypes.func,
-}
+};
 
-export default ProductForm
+export default ProductForm;
