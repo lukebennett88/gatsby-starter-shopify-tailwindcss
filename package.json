@@ -8,7 +8,7 @@
   "dependencies": {
     "@emotion/core": "^10.0.22",
     "@mdx-js/react": "^1.5.1",
-    "@tailwindcss/custom-forms": "^0.2.1",
+    "@tailwindcss/ui": "^0.1.3",
     "@theme-ui/components": "^0.2.49",
     "@theme-ui/presets": "^0.2.44",
     "autoprefixer": "^9.7.6",
@@ -35,7 +35,8 @@
     "react-helmet": "^6.0.0",
     "shopify-buy": "^2.9.3",
     "tailwindcss": "^1.2.0",
-    "theme-ui": "^0.3.1"
+    "theme-ui": "^0.3.1",
+    "typeface-inter": "^3.12.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
