@@ -193,6 +193,7 @@ function useCheckout() {
 }
 
 export {
+  StoreContext,
   StoreContextProvider,
   useAddItemToCart,
   useStore,

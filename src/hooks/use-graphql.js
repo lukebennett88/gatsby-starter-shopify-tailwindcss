@@ -48,7 +48,23 @@ export function useGraphQL() {
         }
         allShopifyProduct {
           nodes {
+            title
             handle
+            images {
+              localFile {
+                childImageSharp {
+                  fluid(maxWidth: 392) {
+                    ...GatsbyImageSharpFluid_withWebp
+                  }
+                }
+              }
+            }
+            priceRange {
+              minVariantPrice {
+                amount
+                currencyCode
+              }
+            }
             variants {
               shopifyId
             }
