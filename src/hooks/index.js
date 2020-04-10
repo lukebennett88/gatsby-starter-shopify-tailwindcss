@@ -1,2 +1,1 @@
-export { useGraphQL } from './use-graphql';
-export { useQuantity } from './use-quantity';
+export * from './use-graphql';

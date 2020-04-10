@@ -1,26 +1,48 @@
-import React from 'react';
+/** @jsx jsx */
+import { Styled, jsx } from 'theme-ui';
 import PropTypes from 'prop-types';
 
-import Navigation from './navigation';
-import { useGraphQL } from '../hooks/use-graphql';
+import { useGraphQL } from '../hooks';
+import { Header } from './header';
+import { Hero } from './hero';
 
-const Layout = ({ children }) => {
-  const { site } = useGraphQL();
+const Layout = ({ children, hasHero }) => {
+  const {
+    site: {
+      siteMetadata: { title, description },
+    },
+  } = useGraphQL();
+
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navigation siteTitle={site.siteMetadata.title} />
-      <main className="flex-1 w-full max-w-5xl p-6 mx-auto">{children}</main>
-      <footer className="w-full max-w-5xl p-6 mx-auto">
-        © {new Date().getFullYear()}, Built with
-        {` `}
-        <a href="https://www.gatsbyjs.org">Gatsby</a>
-      </footer>
-    </div>
+    <Styled.root>
+      <Header siteTitle={title} />
+      {hasHero ? <Hero title={title} description={description} /> : null}
+      <div
+        sx={{
+          margin: `0 auto`,
+          maxWidth: 960,
+          padding: 3,
+          paddingTop: 0,
+        }}
+      >
+        <main>{children}</main>
+        <footer sx={{ mt: 6 }}>
+          <Styled.p>
+            © {new Date().getFullYear()} {title}, Built with
+            {` `}
+            <Styled.a href="https://www.gatsbyjs.org">Gatsby</Styled.a>
+            {` and `}
+            <Styled.a href="https://www.shopify.ca">Shopify</Styled.a>.
+          </Styled.p>
+        </footer>
+      </div>
+    </Styled.root>
   );
 };
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
+  hasHero: PropTypes.bool,
 };
 
-export default Layout;
+export { Layout };

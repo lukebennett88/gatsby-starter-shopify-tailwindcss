@@ -1,3 +1,10 @@
+/**
+ * Custom hook that queries for data with
+ * Gatsby's useStaticQuery React hook
+ *
+ * See: https://www.gatsbyjs.org/docs/use-static-query/
+ */
+
 import { graphql, useStaticQuery } from 'gatsby';
 
 export function useGraphQL() {
@@ -7,29 +14,43 @@ export function useGraphQL() {
         site {
           siteMetadata {
             title
+            description
+            author
           }
         }
-        allShopifyProduct(sort: { fields: [createdAt], order: DESC }) {
-          edges {
-            node {
-              id
-              title
-              handle
-              createdAt
-              images {
-                id
-                originalSrc
-                localFile {
-                  childImageSharp {
-                    fluid(maxWidth: 910) {
-                      ...GatsbyImageSharpFluid_withWebp_tracedSVG
-                    }
+        heroImage: file(relativePath: { eq: "hero.jpg" }) {
+          childImageSharp {
+            fluid(maxWidth: 1200) {
+              ...GatsbyImageSharpFluid_withWebp
+            }
+          }
+        }
+        placeholderImage: file(relativePath: { eq: "placeholder/shoe.png" }) {
+          childImageSharp {
+            fluid(maxWidth: 600) {
+              ...GatsbyImageSharpFluid_withWebp
+            }
+          }
+        }
+        allShopifyProductVariant {
+          nodes {
+            shopifyId
+            image {
+              localFile {
+                childImageSharp {
+                  fluid(maxWidth: 120) {
+                    ...GatsbyImageSharpFluid_withWebp
                   }
                 }
               }
-              variants {
-                price
-              }
+            }
+          }
+        }
+        allShopifyProduct {
+          nodes {
+            handle
+            variants {
+              shopifyId
             }
           }
         }

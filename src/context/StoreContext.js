@@ -1,119 +1,204 @@
-import React, { createContext, useState, useEffect } from 'react';
+/* eslint-disable no-shadow */
+import PropTypes from 'prop-types';
+import React, { useState, useEffect, useContext } from 'react';
 import Client from 'shopify-buy';
 
+const SHOPIFY_CHECKOUT_STORAGE_KEY = 'shopify_checkout_id';
+
 const client = Client.buildClient({
-  domain: `${process.env.SHOP_NAME}.myshopify.com`,
   storefrontAccessToken: process.env.SHOPIFY_ACCESS_TOKEN,
+  domain: `${process.env.SHOP_NAME}.myshopify.com`,
 });
 
-const initialValues = {
+const initialStoreState = {
   client,
-  adding: false,
+  isAdding: false,
   checkout: { lineItems: [] },
-  products: [],
-  shop: {},
 };
 
-export const StoreContext = createContext({ store: initialValues });
+const StoreContext = React.createContext({
+  store: initialStoreState,
+  setStore: () => null,
+});
 
-export function ContextProvider({ children }) {
-  const [store, updateStore] = useState(initialValues);
+function createNewCheckout(store) {
+  return store.client.checkout.create();
+}
+
+function fetchCheckout(store, id) {
+  return store.client.checkout.fetch(id);
+}
+
+function setCheckoutInState(checkout, setStore) {
+  const isBrowser = typeof window !== 'undefined';
+  if (isBrowser) {
+    localStorage.setItem(SHOPIFY_CHECKOUT_STORAGE_KEY, checkout.id);
+  }
+
+  setStore((prevState) => {
+    return { ...prevState, checkout };
+  });
+}
+
+const StoreContextProvider = ({ children }) => {
+  const [store, setStore] = useState(initialStoreState);
 
   useEffect(() => {
     const initializeCheckout = async () => {
       // Check for an existing cart.
       const isBrowser = typeof window !== 'undefined';
-      const existingCheckoutID = isBrowser
-        ? localStorage.getItem('shopify_checkout_id')
+      const existingCheckoutId = isBrowser
+        ? localStorage.getItem(SHOPIFY_CHECKOUT_STORAGE_KEY)
         : null;
 
-      const setCheckoutInState = (checkout) => {
-        if (isBrowser) {
-          localStorage.setItem('shopify_checkout_id', checkout.id);
-        }
-
-        updateStore((prevState) => {
-          return { ...prevState, checkout };
-        });
-      };
-
-      const createNewCheckout = () => store.client.checkout.create();
-      const fetchCheckout = (id) => store.client.checkout.fetch(id);
-
-      if (existingCheckoutID) {
+      if (existingCheckoutId) {
         try {
-          const checkout = await fetchCheckout(existingCheckoutID);
+          const checkout = await fetchCheckout(store, existingCheckoutId);
           // Make sure this cart hasn’t already been purchased.
           if (!checkout.completedAt) {
-            setCheckoutInState(checkout);
+            setCheckoutInState(checkout, setStore);
             return;
           }
         } catch (e) {
-          localStorage.setItem('shopify_checkout_id', null);
+          localStorage.setItem(SHOPIFY_CHECKOUT_STORAGE_KEY, null);
         }
       }
 
-      const newCheckout = await createNewCheckout();
-      setCheckoutInState(newCheckout);
+      const newCheckout = await createNewCheckout(store);
+      setCheckoutInState(newCheckout, setStore);
     };
 
     initializeCheckout();
-  }, [store.client.checkout]);
+  }, [store, setStore, store.client.checkout]);
 
   return (
     <StoreContext.Provider
       value={{
         store,
-        addVariantToCart: (variantId, quantity) => {
-          if (variantId === '' || !quantity) {
-            console.error('Both a size and quantity are required.');
-            return;
-          }
-
-          updateStore((prevState) => {
-            return { ...prevState, adding: true };
-          });
-
-          const { checkout, client } = store;
-
-          const checkoutId = checkout.id;
-          const lineItemsToUpdate = [
-            { variantId, quantity: parseInt(quantity, 10) },
-          ];
-
-          return client.checkout
-            .addLineItems(checkoutId, lineItemsToUpdate)
-            .then((checkout) => {
-              updateStore((prevState) => {
-                return { ...prevState, checkout, adding: false };
-              });
-            });
-        },
-        removeLineItem: (client, checkoutID, lineItemID) => {
-          return client.checkout
-            .removeLineItems(checkoutID, [lineItemID])
-            .then((res) => {
-              updateStore((prevState) => {
-                return { ...prevState, checkout: res };
-              });
-            });
-        },
-        updateLineItem: (client, checkoutID, lineItemID, quantity) => {
-          const lineItemsToUpdate = [
-            { id: lineItemID, quantity: parseInt(quantity, 10) },
-          ];
-
-          return client.checkout
-            .updateLineItems(checkoutID, lineItemsToUpdate)
-            .then((res) => {
-              updateStore((prevState) => {
-                return { ...prevState, checkout: res };
-              });
-            });
-        },
+        setStore,
       }}
     >
       {children}
     </StoreContext.Provider>
   );
+};
+
+StoreContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+function useStore() {
+  const { store } = useContext(StoreContext);
+  return store;
 }
+
+function useCartCount() {
+  const {
+    store: { checkout },
+  } = useContext(StoreContext);
+
+  const count = checkout.lineItems.reduce(
+    (runningTotal, item) => item.quantity + runningTotal,
+    0
+  );
+
+  return count;
+}
+
+function useCartTotals() {
+  const {
+    store: { checkout },
+  } = useContext(StoreContext);
+
+  const tax = checkout.totalTaxV2
+    ? `$${Number(checkout.totalTaxV2.amount).toFixed(2)}`
+    : '-';
+  const total = checkout.totalPriceV2
+    ? `$${Number(checkout.totalPriceV2.amount).toFixed(2)}`
+    : '-';
+
+  return {
+    tax,
+    total,
+  };
+}
+
+function useCartItems() {
+  const {
+    store: { checkout },
+  } = useContext(StoreContext);
+
+  return checkout.lineItems;
+}
+
+function useAddItemToCart() {
+  const {
+    store: { checkout, client },
+    setStore,
+  } = useContext(StoreContext);
+
+  async function addItemToCart(variantId, quantity) {
+    if (variantId === '' || !quantity) {
+      console.error('Both a size and quantity are required.');
+      return;
+    }
+
+    setStore((prevState) => {
+      return { ...prevState, isAdding: true };
+    });
+
+    const checkoutId = checkout.id;
+    const lineItemsToAdd = [{ variantId, quantity: parseInt(quantity, 10) }];
+
+    const newCheckout = await client.checkout.addLineItems(
+      checkoutId,
+      lineItemsToAdd
+    );
+
+    setStore((prevState) => {
+      return { ...prevState, checkout: newCheckout, isAdding: false };
+    });
+  }
+
+  return addItemToCart;
+}
+
+function useRemoveItemFromCart() {
+  const {
+    store: { client, checkout },
+    setStore,
+  } = useContext(StoreContext);
+
+  async function removeItemFromCart(itemId) {
+    const newCheckout = await client.checkout.removeLineItems(checkout.id, [
+      itemId,
+    ]);
+
+    setStore((prevState) => {
+      return { ...prevState, checkout: newCheckout };
+    });
+  }
+
+  return removeItemFromCart;
+}
+
+function useCheckout() {
+  const {
+    store: { checkout },
+  } = useContext(StoreContext);
+
+  return () => {
+    window.open(checkout.webUrl);
+  };
+}
+
+export {
+  StoreContextProvider,
+  useAddItemToCart,
+  useStore,
+  useCartCount,
+  useCartItems,
+  useCartTotals,
+  useRemoveItemFromCart,
+  useCheckout,
+};

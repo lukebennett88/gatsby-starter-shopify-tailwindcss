@@ -3,6 +3,11 @@ const postCssImport = require('postcss-import');
 const tailwindcss = require('tailwindcss');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
+const resolveConfig = require('tailwindcss/resolveConfig');
+
+const tailwindConfig = require('./tailwind.config.js');
+
+const fullConfig = resolveConfig(tailwindConfig);
 
 dotenv.config({
   path: `.env.${process.env.NODE_ENV}`,
@@ -17,18 +22,36 @@ module.exports = {
   },
   plugins: [
     'gatsby-plugin-react-helmet',
-    'gatsby-plugin-sharp',
+    'gatsby-plugin-theme-ui',
+    'gatsby-theme-style-guide',
     'gatsby-transformer-sharp',
+    'gatsby-plugin-sharp',
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'images',
+        path: 'src/images',
+      },
+    },
+    {
+      // This plugin lets me access environment variables that
+      // aren't prefixed with Gatsby. This allows me to use
+      // Shopify-related variables in the context setup script.
+      resolve: 'gatsby-plugin-env-variables',
+      options: {
+        whitelist: ['SHOP_NAME', 'SHOPIFY_ACCESS_TOKEN'],
+      },
+    },
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
         name: 'gatsby-starter-default',
         short_name: 'starter',
         start_url: '/',
-        background_color: '#663399',
-        theme_color: '#663399',
+        background_color: fullConfig.theme.colors.indigo['600'],
+        theme_color: fullConfig.theme.colors.indigo['600'],
         display: 'minimal-ui',
-        icon: 'src/images/gatsby-icon.png', // This path is relative to the root of the site.
+        icon: 'src/images/icon.png', // This path is relative to the root of the site.
       },
     },
     {
@@ -51,13 +74,6 @@ module.exports = {
       },
     },
     {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        name: 'images',
-        path: 'src/images',
-      },
-    },
-    {
       resolve: 'gatsby-source-shopify',
       options: {
         // The domain name of your Shopify shop. This is required.
@@ -75,27 +91,6 @@ module.exports = {
         // Storefront API".
         // See: https://help.shopify.com/api/custom-storefronts/storefront-api/getting-started#authentication
         accessToken: process.env.SHOPIFY_ACCESS_TOKEN,
-
-        // Set the API version you want to use. For a list of available API versions,
-        // see: https://help.shopify.com/en/api/storefront-api/reference/queryroot
-        // Defaults to 2019-07
-        apiVersion: '2020-01',
-
-        // Set verbose to true to display a verbose output on `npm run develop`
-        // or `npm run build`. This prints which nodes are being fetched and how
-        // much time was required to fetch and process the data.
-        // Defaults to true.
-        verbose: true,
-
-        // Number of records to fetch on each request when building the cache
-        // at startup. If your application encounters timeout errors during
-        // startup, try decreasing this number.
-        paginationSize: 250,
-
-        // List of collections you want to fetch.
-        // Possible values are: 'shop' and 'content'.
-        // Defaults to ['shop', 'content'].
-        includeCollections: ['shop'],
       },
     },
   ],
