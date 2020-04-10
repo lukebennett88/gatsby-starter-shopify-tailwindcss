@@ -1,62 +1,30 @@
-/** @jsx jsx */
-import PropTypes from 'prop-types';
-import { jsx } from 'theme-ui';
-import { Grid } from '@theme-ui/components';
-import { graphql } from 'gatsby';
+import React from 'react';
 import { Layout, SEO, Tile } from '../components';
 
-const IndexPage = ({ data }) => {
+import { useGraphQL } from '../hooks';
+
+const IndexPage = () => {
   const {
     allShopifyProduct: { nodes: products },
-  } = data;
+  } = useGraphQL();
 
   return (
     <Layout hasHero>
       <SEO title="Home" />
       <div sx={{ marginTop: 5 }} />
-      <Grid gap={2} columns={3}>
+      <div className="relative grid max-w-lg gap-5 pt-16 pb-20 mx-auto mt-12 lg:grid-cols-3 lg:max-w-none lg:pt-24 lg:pb-28">
         {products.map((product) => (
           <Tile
             key={product.handle}
             slug={product.handle}
             title={product.title}
-            price={Number(product.priceRange.maxVariantPrice.amount)}
+            price={Number(product.priceRange.minVariantPrice.amount)}
             image={product.images[0].localFile.childImageSharp.fluid}
           />
         ))}
-      </Grid>
+      </div>
     </Layout>
   );
 };
 
-IndexPage.propTypes = {
-  data: PropTypes.object.isRequired,
-};
-
 export default IndexPage;
-
-export const IndexPageQuery = graphql`
-  query allProducts {
-    allShopifyProduct {
-      nodes {
-        title
-        handle
-        images {
-          localFile {
-            childImageSharp {
-              fluid(maxWidth: 290) {
-                ...GatsbyImageSharpFluid_withWebp
-              }
-            }
-          }
-        }
-        priceRange {
-          maxVariantPrice {
-            amount
-            currencyCode
-          }
-        }
-      }
-    }
-  }
-`;

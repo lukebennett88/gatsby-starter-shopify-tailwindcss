@@ -1,83 +1,36 @@
-/** @jsx jsx */
-import { Styled, jsx } from 'theme-ui';
-import PropTypes from 'prop-types';
+import React from 'react';
+import { Link } from 'gatsby';
 
+import { useGraphQL } from '../hooks';
 import { useCartCount } from '../context/StoreContext';
-import { Link } from './link';
 
-const Header = ({ siteTitle }) => {
+const Header = () => {
+  const data = useGraphQL();
   const count = useCartCount();
 
-  const countMarkup = (
-    <span
-      sx={{
-        display: 'inline-block',
-        background: 'white',
-        color: 'black',
-        height: '20px',
-        lineHeight: '20px',
-        width: '20px',
-        fontSize: '0.8em',
-        borderRadius: '10px',
-        ml: 2,
-        top: '-2px',
-        position: 'relative',
-        textAlign: 'center',
-      }}
-    >
-      {count}
-    </span>
-  );
-
   return (
-    <Styled.div as="header">
-      <div
-        sx={{
-          margin: `0 auto`,
-          maxWidth: 960,
-          py: 4,
-          px: 3,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <Styled.h1 sx={{ margin: 0, fontSize: 20, fontWeight: 'bold' }}>
-          <Link
-            url="/"
-            sx={{
-              color: 'black',
-              letterSpacing: -0.5,
-              textDecoration: `none`,
-              paddingLeft: '20px',
-              '&:hover': {
-                textDecoration: 'underline',
-              },
-              '&::before': {
-                content: '"▼"',
-                position: 'absolute',
-                marginLeft: '-20px',
-              },
-            }}
-          >
-            {siteTitle}
+    <header className="sticky top-0 z-10 bg-white shadow">
+      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <Link to="/">
+            <h1 className="text-xl font-semibold leading-none text-gray-900">
+              {data.site.siteMetadata.title}
+            </h1>
           </Link>
-        </Styled.h1>
-        <Link url="/cart" isButton>
-          Cart
-          {countMarkup}
-        </Link>
+          <Link
+            to="/cart"
+            className="relative inline-flex items-center px-4 py-2 text-sm font-medium leading-5 text-white transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray active:bg-gray-900"
+          >
+            <span className="leading-none">Cart</span>
+
+            <span className="relative inline-flex items-center justify-center w-5 h-5 ml-2 text-sm leading-none text-black bg-white rounded-full">
+              {count}
+            </span>
+          </Link>
+        </div>
       </div>
-    </Styled.div>
+    </header>
   );
-};
-
-Header.propTypes = {
-  siteTitle: PropTypes.string,
-};
-
-Header.defaultProps = {
-  siteTitle: ``,
 };
 
 export { Header };

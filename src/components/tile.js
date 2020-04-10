@@ -1,10 +1,8 @@
-/** @jsx jsx */
-import { Styled, jsx } from 'theme-ui';
+import React from 'react';
 import PropTypes from 'prop-types';
-import Img from 'gatsby-image';
-import { Card, Text } from '@theme-ui/components';
+import Image from 'gatsby-image';
+import { Link } from 'gatsby';
 
-import { Link } from './link';
 import { useGraphQL } from '../hooks';
 
 const Tile = ({ title, slug, price, image }) => {
@@ -13,23 +11,29 @@ const Tile = ({ title, slug, price, image }) => {
   const imageSrc = image || data.placeholderImage.childImageSharp.fluid;
 
   return (
-    <Card
-      sx={{
-        maxWidth: 290,
-        p: 3,
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      <div sx={{ position: 'relative' }}>
-        <Img fluid={imageSrc} />
+    <div className="flex flex-col overflow-hidden rounded-lg shadow-lg">
+      <div className="flex-shrink-0">
+        <Image fluid={imageSrc} className="w-full h-64" />
       </div>
-      <Styled.h2 sx={{ mt: 4, mb: 0, fontSize: 3 }}>{title}</Styled.h2>
-      <Text sx={{ fontSize: 4, mb: 2 }}>${price.toFixed(2)}</Text>
-      <Link url={`/product/${slug}`} isButton>
-        View
-      </Link>
-    </Card>
+      <div className="flex flex-col justify-between flex-1 p-6 bg-white">
+        <div className="flex-1">
+          <h2 className="mt-2 text-xl font-semibold leading-7 text-gray-900">
+            {title}
+          </h2>
+          <p className="mt-3 text-base leading-6 text-gray-500">
+            Starting from: ${price.toFixed(2)}
+          </p>
+        </div>
+        <div className="mt-6 rounded-md shadow">
+          <Link
+            to={`/product/${slug}`}
+            className="flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white transition duration-150 ease-in-out bg-gray-900 border border-transparent rounded-md hover:bg-gray-800 focus:outline-none focus:shadow-outline"
+          >
+            Shop now
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 };
 

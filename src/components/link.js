@@ -1,46 +1,22 @@
-/** @jsx jsx */
 import PropTypes from 'prop-types';
-import { jsx } from 'theme-ui';
+import React from 'react';
 import { Link as GatsbyLink } from 'gatsby';
 
-export const Link = ({
-  isButton,
-  url,
-  children,
-  // ...props
-}) => {
+export const Link = ({ isButton, url, children }) => {
   return isButton ? (
-    <GatsbyLink
-      // {...props}
-      activeClassName="active"
-      to={url}
-      sx={{
-        py: 2,
-        px: 3,
-        borderRadius: 4,
-        textDecoration: 'none',
-        fontWeight: 600,
-        background: 'black',
-        color: 'white',
-        textAlign: 'center',
-        '&:hover': {
-          background: 'gray',
-        },
-      }}
-    >
-      {children}
-    </GatsbyLink>
+    <span className="inline-flex rounded-md shadow-sm">
+      <GatsbyLink
+        to={url}
+        activeClassName="active"
+        className="inline-flex items-center px-4 py-2 text-base font-medium leading-6 text-white transition duration-150 ease-in-out bg-gray-900 border border-transparent rounded-md hover:bg-gray-800 focus:outline-none focus:border-gray-800 focus:shadow-outline-gray active:bg-black"
+      >
+        {children}
+      </GatsbyLink>
+    </span>
   ) : (
     <GatsbyLink
-      // {...props}
-      activeClassName="active"
       to={url}
-      sx={{
-        color: 'inherit',
-        '&:hover': {
-          color: 'gray',
-        },
-      }}
+      className="text-gray-900 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none focus:shadow-outline-gray active:text-black"
     >
       {children}
     </GatsbyLink>

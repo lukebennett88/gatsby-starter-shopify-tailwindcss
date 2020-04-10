@@ -1,90 +1,34 @@
-/** @jsx jsx */
-import { jsx } from 'theme-ui';
-import PropTypes from 'prop-types';
-import Img from 'gatsby-image';
+import React from 'react';
+import Image from 'gatsby-image';
 
 import { useGraphQL } from '../hooks';
 
-const Hero = ({ title, description }) => {
+const Hero = () => {
   const {
     heroImage: {
       childImageSharp: { fluid: heroImageSrc },
     },
+    site: {
+      siteMetadata: { title, description },
+    },
   } = useGraphQL();
 
-  const titleBox = (
-    <div
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        border: '3px solid',
-        color: 'white',
-        background: 'rgba(0,0,0,0.40)',
-        px: 5,
-        py: 4,
-        textAlign: 'center',
-        lineHeight: 1,
-      }}
-    >
-      <span
-        sx={{
-          fontSize: 40,
-          fontWeight: '800',
-          textTransform: 'uppercase',
-        }}
-      >
-        {title}
-      </span>
-      <span sx={{ fontSize: 24, fontWeight: '500', mt: 2 }}>{description}</span>
-    </div>
-  );
-
   return (
-    <div
-      sx={{
-        maxHeight: '35rem',
-        overflow: 'hidden',
-        background: 'red',
-        position: 'relative',
-      }}
-    >
-      <div
-        sx={{
-          position: 'absolute',
-          zIndex: '10',
-          width: '100%',
-          height: '100%',
-        }}
-      >
-        <div
-          sx={{
-            display: 'flex',
-            height: '100%',
-            width: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          {titleBox}
+    <div className="relative overflow-hidden">
+      <Image
+        fluid={heroImageSrc}
+        style={{ minHeight: '20rem', maxHeight: '35rem' }}
+      />
+      <div className="absolute inset-0 w-full h-full px-4 sm:px-6">
+        <div className="flex items-center justify-center w-full h-full max-w-sm mx-auto">
+          <div className="flex flex-col px-4 py-8 leading-none text-center text-white sm:px-6 bg-transparent-black-50">
+            <span className="text-4xl font-extrabold uppercase">{title}</span>
+            <span className="mt-2 text-2xl font-medium">{description}</span>
+          </div>
         </div>
       </div>
-      <Img
-        imgStyle={{ height: '100%', width: '100%' }}
-        objectFit="contain"
-        fluid={heroImageSrc}
-      />
     </div>
   );
-};
-
-Hero.propTypes = {
-  title: PropTypes.string,
-  description: PropTypes.string,
-};
-
-Hero.defaultProps = {
-  title: 'Only Down',
-  description: 'Get down with Down',
 };
 
 export { Hero };
