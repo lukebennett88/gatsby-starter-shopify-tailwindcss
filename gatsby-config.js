@@ -43,8 +43,8 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: 'gatsby-starter-default',
-        short_name: 'starter',
+        name: 'Gatsby Shopify Starter',
+        short_name: 'Shopify Starter',
         start_url: '/',
         background_color: fullConfig.theme.colors.indigo['600'],
         theme_color: fullConfig.theme.colors.indigo['600'],
