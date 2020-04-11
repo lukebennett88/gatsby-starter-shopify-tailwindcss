@@ -53,7 +53,7 @@ export function useGraphQL() {
             images {
               localFile {
                 childImageSharp {
-                  fluid(maxWidth: 392) {
+                  fluid(maxWidth: 512) {
                     ...GatsbyImageSharpFluid_withWebp
                   }
                 }
