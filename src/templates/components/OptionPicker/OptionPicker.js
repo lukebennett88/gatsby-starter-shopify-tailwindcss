@@ -1,19 +1,19 @@
-/** @jsx jsx */
 import PropTypes from 'prop-types';
-import { jsx } from 'theme-ui';
-import { Select, Label } from '@theme-ui/components';
+import React from 'react';
 
 export const OptionPicker = ({ name, options, onChange, selected }) => {
   return (
     <div>
-      <Label>{name}</Label>
-      <Select onChange={onChange} value={selected}>
-        {options.map((option) => (
-          <option value={option} key={option}>
-            {option}
-          </option>
-        ))}
-      </Select>
+      <label>
+        <span>{name}</span>
+        <select onChange={onChange} value={selected}>
+          {options.map((option) => (
+            <option value={option} key={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      </label>
     </div>
   );
 };

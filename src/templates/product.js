@@ -1,19 +1,16 @@
 /* eslint-disable no-shadow */
-/** @jsx jsx */
-import { useState, useEffect, useMemo } from 'react';
-import { Styled, jsx } from 'theme-ui';
-import Img from 'gatsby-image';
-import { Grid, Button, Alert, Close } from '@theme-ui/components';
+import React, { useState, useEffect, useMemo } from 'react';
+import Image from 'gatsby-image';
 import { graphql } from 'gatsby';
 import PropTypes from 'prop-types';
 
+import { useAddItemToCart } from '../hooks';
+import { prepareVariantsWithOptions, prepareVariantsImages } from './utilities';
 import { Layout, SEO } from '../components';
 import {
   Thumbnail,
   // OptionPicker
 } from './components';
-import { prepareVariantsWithOptions, prepareVariantsImages } from './utilities';
-import { useAddItemToCart } from '../context/StoreContext';
 
 const ProductPage = ({ data: { shopifyProduct: product } }) => {
   // const colors = product.options.find(
@@ -52,7 +49,7 @@ const ProductPage = ({ data: { shopifyProduct: product } }) => {
 
   const gallery =
     images.length > 1 ? (
-      <Grid gap={2} columns={6}>
+      <div className="grid grid-cols-6 gap-2">
         {images.map(({ src, color: galleryColor }) => (
           <Thumbnail
             key={galleryColor}
@@ -60,7 +57,7 @@ const ProductPage = ({ data: { shopifyProduct: product } }) => {
             onClick={() => setColor(galleryColor)}
           />
         ))}
-      </Grid>
+      </div>
     ) : null;
 
   function handleAddToCart() {
@@ -72,21 +69,18 @@ const ProductPage = ({ data: { shopifyProduct: product } }) => {
     <Layout>
       <SEO title={product.title} />
       {addedToCartMessage && (
-        <Alert sx={{ mb: 4 }} variant="primary">
+        <div className="mb-4">
           {addedToCartMessage}
-          <Close
-            ml="auto"
-            mr={-2}
-            sx={{
-              '&:hover': {
-                cursor: 'pointer',
-              },
-            }}
+          <button
             onClick={() => setAddedToCartMessage(null)}
-          />
-        </Alert>
+            type="button"
+            className="ml-auto -mr-2"
+          >
+            <span className="sr-only">Close message</span>
+          </button>
+        </div>
       )}
-      <Grid gap={4} columns={2}>
+      <div className="grid grid-cols-2 gap-4">
         <div>
           <div
             sx={{
@@ -95,12 +89,12 @@ const ProductPage = ({ data: { shopifyProduct: product } }) => {
               marginBottom: 2,
             }}
           >
-            <Img fluid={variant.image.localFile.childImageSharp.fluid} />
+            <Image fluid={variant.image.localFile.childImageSharp.fluid} />
           </div>
           {gallery}
         </div>
-        <div sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Styled.h1 sx={{ mt: 0, mb: 2 }}>{product.title}</Styled.h1>
+        <div className="flex flex-col">
+          <h1 className="mb-2">{product.title}</h1>
           <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
           {/* <div>
             <Grid padding={2} columns={2}>
@@ -120,14 +114,11 @@ const ProductPage = ({ data: { shopifyProduct: product } }) => {
               />
             </Grid>
           </div> */}
-          <Button
-            sx={{ margin: 2, display: 'block' }}
-            onClick={handleAddToCart}
-          >
+          <button onClick={handleAddToCart} type="button" className="block m-2">
             Add to Cart
-          </Button>
+          </button>
         </div>
-      </Grid>
+      </div>
     </Layout>
   );
 };
