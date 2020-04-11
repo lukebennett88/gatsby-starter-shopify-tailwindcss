@@ -11,7 +11,6 @@ const IndexPage = () => {
   return (
     <Layout hasHero>
       <SEO title="Home" />
-      <div sx={{ marginTop: 5 }} />
       <div className="relative grid max-w-lg gap-5 pt-16 pb-20 mx-auto mt-12 lg:grid-cols-3 lg:max-w-none lg:pt-24 lg:pb-28">
         {products.map((product) => (
           <Tile
