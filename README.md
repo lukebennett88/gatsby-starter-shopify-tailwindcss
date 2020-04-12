@@ -11,9 +11,11 @@ PR's welcome.
 
 ## To do
 
+- [ ] Debug and fix cart error `Uncaught (in promise) Error: [{"message": "Throttled","extensions":{"code":"THROTTLED"}}]`
 - [ ] Get gallery working
 - [ ] Style **Add to cart** button
 - [ ] Style **Added to cart** popup
+- [ ] Remove all **eslint-disable** comments and fix errors
 - [ ] Check product quantity on page load
 - [ ] Show quantity (if low)
 - [ ] Use location of user to estimate tax
