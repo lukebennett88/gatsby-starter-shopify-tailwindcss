@@ -1,13 +1,17 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import PropTypes from 'prop-types';
 import React from 'react';
 
 export const OptionPicker = ({ name, options, onChange, selected }) => {
   return (
     <div>
-      <label>
+      <label htmlFor={name.toLowerCase()}>
         <span>{name}</span>
-        <select onChange={onChange} value={selected} className="form-select">
+        <select
+          onChange={onChange}
+          value={selected}
+          id={name.toLowerCase()}
+          className="form-select"
+        >
           {options.map((option) => (
             <option value={option} key={option}>
               {option}

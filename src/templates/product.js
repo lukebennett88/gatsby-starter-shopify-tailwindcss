@@ -9,7 +9,7 @@ import {
   prepareVariantsWithOptions,
   prepareVariantsImages,
 } from '../utilities';
-import { Layout, SEO, Thumbnail, OptionPicker } from '../components';
+import { Layout, SEO, Alert, Thumbnail, OptionPicker } from '../components';
 
 export default function ProductPage({ data: { shopifyProduct: product } }) {
   // const colors = product.options.find(
@@ -67,20 +67,14 @@ export default function ProductPage({ data: { shopifyProduct: product } }) {
   return (
     <Layout>
       <SEO title={product.title} />
-      {addedToCartMessage && (
-        <div className="mb-4">
-          {addedToCartMessage}
-          <button
-            onClick={() => setAddedToCartMessage(null)}
-            type="button"
-            className="ml-auto -mr-2"
-          >
-            <span className="sr-only">Close message</span>
-          </button>
-        </div>
-      )}
       <div className="relative pt-16 pb-20">
-        <div className="lg:grid lg:grid-flow-row-dense lg:grid-cols-2 lg:gap-8 lg:items-center">
+        <div className="relative lg:grid lg:grid-flow-row-dense lg:grid-cols-2 lg:gap-8">
+          {addedToCartMessage && (
+            <Alert
+              message={addedToCartMessage}
+              dismiss={() => setAddedToCartMessage(null)}
+            />
+          )}
           <div>
             <Image
               fluid={variant.image.localFile.childImageSharp.fluid}
@@ -88,7 +82,7 @@ export default function ProductPage({ data: { shopifyProduct: product } }) {
             />
             {gallery}
           </div>
-          <div className="flex flex-col mt-6">
+          <div className="flex flex-col mt-16">
             <h1 className="text-2xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-3xl sm:leading-9">
               {product.title}
             </h1>
@@ -105,20 +99,21 @@ export default function ProductPage({ data: { shopifyProduct: product } }) {
                 onChange={(event) => setColor(event.target.value)}
               /> */}
               <OptionPicker
-                key="Size"
                 name="Size"
                 options={sizes}
                 selected={size}
                 onChange={(event) => setSize(event.target.value)}
               />
             </div>
-            <button
-              onClick={handleAddToCart}
-              type="button"
-              className="block m-2"
-            >
-              Add to Cart
-            </button>
+            <div className="mt-6">
+              <button
+                onClick={handleAddToCart}
+                type="button"
+                className="flex items-center justify-center w-full px-4 py-2 text-base font-medium leading-6 text-white transition duration-150 ease-in-out bg-gray-900 border border-transparent rounded-md hover:bg-gray-800 focus:outline-none focus:shadow-outline"
+              >
+                Add to Cart
+              </button>
+            </div>
           </div>
         </div>
       </div>
