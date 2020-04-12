@@ -18,13 +18,6 @@ export function useGraphQL() {
             author
           }
         }
-        heroImage: file(relativePath: { eq: "hero.jpg" }) {
-          childImageSharp {
-            fluid(maxWidth: 1200) {
-              ...GatsbyImageSharpFluid_withWebp
-            }
-          }
-        }
         placeholderImage: file(relativePath: { eq: "placeholder/shoe.png" }) {
           childImageSharp {
             fluid(maxWidth: 600) {

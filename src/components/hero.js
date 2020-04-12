@@ -1,24 +1,20 @@
 import React from 'react';
-import Image from 'gatsby-image';
 
 import { useGraphQL } from '../hooks';
 
 const Hero = () => {
   const {
-    heroImage: {
-      childImageSharp: { fluid: heroImageSrc },
-    },
     site: {
       siteMetadata: { title, description },
     },
   } = useGraphQL();
 
   return (
-    <div className="relative overflow-hidden">
-      <Image
-        fluid={heroImageSrc}
-        style={{ minHeight: '20rem', maxHeight: '35rem' }}
-      />
+    <article
+      style={{ minHeight: '20rem', maxHeight: '35rem' }}
+      className="relative overflow-hidden bg-teal-400"
+    >
+      <div className="relative h-0 aspect-ratio-16/9" aria-hidden />
       <div className="absolute inset-0 w-full h-full px-4 sm:px-6">
         <div className="flex items-center justify-center w-full h-full max-w-sm mx-auto">
           <div className="flex flex-col px-4 py-8 leading-none text-center text-white sm:px-6 bg-transparent-black-50">
@@ -31,7 +27,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 

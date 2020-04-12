@@ -1,7 +1,13 @@
+const tailwindcssAspectRatio = require('tailwindcss-aspect-ratio');
 const tailwindUI = require('@tailwindcss/ui');
 
 module.exports = {
   theme: {
+    aspectRatio: {
+      none: 0,
+      '16/9': [16, 9],
+      '4/3': [4, 3],
+    },
     extend: {
       colors: {
         'transparent-black': {
@@ -18,5 +24,5 @@ module.exports = {
     },
   },
   variants: {},
-  plugins: [tailwindUI],
+  plugins: [tailwindcssAspectRatio, tailwindUI],
 };
