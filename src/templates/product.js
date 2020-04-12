@@ -5,9 +5,11 @@ import { graphql } from 'gatsby';
 import PropTypes from 'prop-types';
 
 import { useAddItemToCart } from '../hooks';
-import { prepareVariantsWithOptions, prepareVariantsImages } from './utilities';
-import { Layout, SEO } from '../components';
-import { Thumbnail, OptionPicker } from './components';
+import {
+  prepareVariantsWithOptions,
+  prepareVariantsImages,
+} from '../utilities';
+import { Layout, SEO, Thumbnail, OptionPicker } from '../components';
 
 export default function ProductPage({ data: { shopifyProduct: product } }) {
   // const colors = product.options.find(
