@@ -7,7 +7,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { StoreContextProvider } from './src/context/StoreContext';
+import { StoreContextProvider } from './src/context/store-context';
 import 'typeface-inter';
 import './src/css/tailwind.css';
 

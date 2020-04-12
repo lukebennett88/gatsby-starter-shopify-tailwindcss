@@ -9,7 +9,7 @@ import { prepareVariantsWithOptions, prepareVariantsImages } from './utilities';
 import { Layout, SEO } from '../components';
 import { Thumbnail, OptionPicker } from './components';
 
-const ProductPage = ({ data: { shopifyProduct: product } }) => {
+export default function ProductPage({ data: { shopifyProduct: product } }) {
   // const colors = product.options.find(
   //   (option) => option.name.toLowerCase() === 'color'
   // ).values;
@@ -122,13 +122,11 @@ const ProductPage = ({ data: { shopifyProduct: product } }) => {
       </div>
     </Layout>
   );
-};
+}
 
 ProductPage.propTypes = {
   data: PropTypes.object,
 };
-
-export default ProductPage;
 
 export const ProductPageQuery = graphql`
   query productPage($productId: String!) {
