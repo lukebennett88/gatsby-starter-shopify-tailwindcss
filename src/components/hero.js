@@ -17,7 +17,7 @@ const Hero = () => {
       <div className="relative h-0 aspect-ratio-16/9" aria-hidden />
       <div className="absolute inset-0 w-full h-full px-4 sm:px-6">
         <div className="flex items-center justify-center w-full h-full max-w-sm mx-auto">
-          <div className="flex flex-col px-4 py-8 leading-none text-center text-white sm:px-6 bg-transparent-black-50">
+          <div className="flex flex-col px-4 py-8 leading-none text-center text-white rounded-md sm:px-6 bg-transparent-black-50">
             <span className="text-3xl font-extrabold leading-9 tracking-tight sm:text-4xl sm:leading-10">
               {title}
             </span>
