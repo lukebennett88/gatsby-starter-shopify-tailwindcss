@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'gatsby';
 
-import { useGraphQL } from '../hooks';
-import { useCartCount } from '../context/StoreContext';
+import { useGraphQL, useCartCount } from '../hooks';
 
 const Header = () => {
   const data = useGraphQL();

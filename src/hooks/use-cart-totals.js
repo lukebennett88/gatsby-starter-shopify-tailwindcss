@@ -1,11 +1,9 @@
-import { useContext } from 'react';
-
-import { StoreContext } from '../context/StoreContext';
+import { useStoreContext } from './use-store-context';
 
 export function useCartTotals() {
   const {
     store: { checkout },
-  } = useContext(StoreContext);
+  } = useStoreContext();
 
   const tax = checkout.totalTaxV2
     ? `$${Number(checkout.totalTaxV2.amount).toFixed(2)}`

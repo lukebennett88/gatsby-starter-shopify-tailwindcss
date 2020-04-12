@@ -1,11 +1,9 @@
-import { useContext } from 'react';
-
-import { StoreContext } from '../context/StoreContext';
+import { useStoreContext } from './use-store-context';
 
 export function useCartCount() {
   const {
     store: { checkout },
-  } = useContext(StoreContext);
+  } = useStoreContext();
 
   const count = checkout.lineItems.reduce(
     (runningTotal, item) => item.quantity + runningTotal,

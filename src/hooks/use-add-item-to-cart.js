@@ -1,12 +1,10 @@
-import { useContext } from 'react';
-
-import { StoreContext } from '../context/StoreContext';
+import { useStoreContext } from './use-store-context';
 
 export function useAddItemToCart() {
   const {
     store: { checkout, client },
     setStore,
-  } = useContext(StoreContext);
+  } = useStoreContext();
 
   async function addItemToCart(variantId, quantity) {
     if (variantId === '' || !quantity) {

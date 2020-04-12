@@ -1,11 +1,9 @@
-import { useContext } from 'react';
-
-import { StoreContext } from '../context/StoreContext';
+import { useStoreContext } from './use-store-context';
 
 export function useCheckout() {
   const {
     store: { checkout },
-  } = useContext(StoreContext);
+  } = useStoreContext();
 
   return () => {
     window.open(checkout.webUrl);

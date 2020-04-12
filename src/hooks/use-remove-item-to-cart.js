@@ -1,12 +1,10 @@
-import { useContext } from 'react';
-
-import { StoreContext } from '../context/StoreContext';
+import { useStoreContext } from './use-store-context';
 
 export function useRemoveItemFromCart() {
   const {
     store: { client, checkout },
     setStore,
-  } = useContext(StoreContext);
+  } = useStoreContext();
 
   async function removeItemFromCart(itemId) {
     const newCheckout = await client.checkout.removeLineItems(checkout.id, [

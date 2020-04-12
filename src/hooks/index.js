@@ -5,4 +5,4 @@ export * from './use-cart-totals';
 export * from './use-checkout';
 export * from './use-graphql';
 export * from './use-remove-item-to-cart';
-export * from './use-store';
+export * from './use-store-context';

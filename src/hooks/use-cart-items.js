@@ -1,11 +1,9 @@
-import { useContext } from 'react';
-
-import { StoreContext } from '../context/StoreContext';
+import { useStoreContext } from './use-store-context';
 
 export function useCartItems() {
   const {
     store: { checkout },
-  } = useContext(StoreContext);
+  } = useStoreContext();
 
   return checkout.lineItems;
 }
