@@ -4,7 +4,11 @@ import { Link } from 'gatsby';
 import { useGraphQL, useCartCount } from '../hooks';
 
 const Header = () => {
-  const data = useGraphQL();
+  const {
+    site: {
+      siteMetadata: { title },
+    },
+  } = useGraphQL();
   const count = useCartCount();
 
   return (
@@ -13,7 +17,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
           <Link to="/">
             <h1 className="text-xl font-semibold leading-none text-gray-900">
-              {data.site.siteMetadata.title}
+              {title}
             </h1>
           </Link>
           <Link
