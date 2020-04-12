@@ -6,7 +6,7 @@ export const OptionPicker = ({ name, options, onChange, selected }) => {
     <div>
       <label>
         <span>{name}</span>
-        <select onChange={onChange} value={selected}>
+        <select onChange={onChange} value={selected} className="form-select">
           {options.map((option) => (
             <option value={option} key={option}>
               {option}

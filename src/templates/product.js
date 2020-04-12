@@ -7,18 +7,15 @@ import PropTypes from 'prop-types';
 import { useAddItemToCart } from '../hooks';
 import { prepareVariantsWithOptions, prepareVariantsImages } from './utilities';
 import { Layout, SEO } from '../components';
-import {
-  Thumbnail,
-  // OptionPicker
-} from './components';
+import { Thumbnail, OptionPicker } from './components';
 
 const ProductPage = ({ data: { shopifyProduct: product } }) => {
   // const colors = product.options.find(
   //   (option) => option.name.toLowerCase() === 'color'
   // ).values;
-  // const sizes = product.options.find(
-  //   (option) => option.name.toLowerCase() === 'size'
-  // ).values;
+  const sizes = product.options.find(
+    (option) => option.name.toLowerCase() === 'size'
+  ).values;
 
   const variants = useMemo(() => prepareVariantsWithOptions(product.variants), [
     product.variants,
@@ -34,7 +31,7 @@ const ProductPage = ({ data: { shopifyProduct: product } }) => {
   const addItemToCart = useAddItemToCart();
   const [variant, setVariant] = useState(variants[0]);
   const [color, setColor] = useState(variant.color);
-  const [size] = useState(variant.size);
+  const [size, setSize] = useState(variant.size);
   const [addedToCartMessage, setAddedToCartMessage] = useState(null);
 
   useEffect(() => {
@@ -50,11 +47,11 @@ const ProductPage = ({ data: { shopifyProduct: product } }) => {
   const gallery =
     images.length > 1 ? (
       <div className="grid grid-cols-6 gap-2">
-        {images.map(({ src, color: galleryColor }) => (
+        {images.map((image) => (
           <Thumbnail
-            key={galleryColor}
-            src={src}
-            onClick={() => setColor(galleryColor)}
+            key={image.color}
+            src={image.src}
+            onClick={() => setColor(image.color)}
           />
         ))}
       </div>
@@ -80,31 +77,31 @@ const ProductPage = ({ data: { shopifyProduct: product } }) => {
           </button>
         </div>
       )}
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <div
-            sx={{
-              border: '1px solid gray',
-              padding: 2,
-              marginBottom: 2,
-            }}
-          >
-            <Image fluid={variant.image.localFile.childImageSharp.fluid} />
+      <div className="relative pt-16 pb-20">
+        <div className="lg:grid lg:grid-flow-row-dense lg:grid-cols-2 lg:gap-8 lg:items-center">
+          <div>
+            <Image
+              fluid={variant.image.localFile.childImageSharp.fluid}
+              className="overflow-hidden rounded-md shadow"
+            />
+            {gallery}
           </div>
-          {gallery}
-        </div>
-        <div className="flex flex-col">
-          <h1 className="mb-2">{product.title}</h1>
-          <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
-          {/* <div>
-            <Grid padding={2} columns={2}>
-              <OptionPicker
+          <div className="flex flex-col mt-6">
+            <h1 className="text-2xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-3xl sm:leading-9">
+              {product.title}
+            </h1>
+            <div
+              dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+              className="mt-4 text-base leading-6 text-gray-500 sm:mt-3"
+            />
+            <div className="grid grid-cols-2">
+              {/* <OptionPicker
                 key="Color"
                 name="Color"
                 options={colors}
                 selected={color}
                 onChange={(event) => setColor(event.target.value)}
-              />
+              /> */}
               <OptionPicker
                 key="Size"
                 name="Size"
@@ -112,11 +109,15 @@ const ProductPage = ({ data: { shopifyProduct: product } }) => {
                 selected={size}
                 onChange={(event) => setSize(event.target.value)}
               />
-            </Grid>
-          </div> */}
-          <button onClick={handleAddToCart} type="button" className="block m-2">
-            Add to Cart
-          </button>
+            </div>
+            <button
+              onClick={handleAddToCart}
+              type="button"
+              className="block m-2"
+            >
+              Add to Cart
+            </button>
+          </div>
         </div>
       </div>
     </Layout>
@@ -140,7 +141,12 @@ export const ProductPageQuery = graphql`
         values
       }
       variants {
+        availableForSale
+        id
+        price
         shopifyId
+        sku
+        title
         selectedOptions {
           name
           value
