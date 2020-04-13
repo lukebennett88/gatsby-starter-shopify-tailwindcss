@@ -13,9 +13,13 @@ PR's welcome.
 
 - [ ] Debug and fix cart error `Uncaught (in promise) Error: [{"message": "Throttled","extensions":{"code":"THROTTLED"}}]`
 - [ ] Get gallery working
-- [ ] Style **Add to cart** button
+- [x] Style **Add to cart** button
+- [ ] Make **Add to cart** button visible on mobile
+- [ ] Dismiss **Add to cart** after set period of time
 - [ ] Style **Added to cart** popup
+- [ ] Make page responsive
 - [ ] Remove all **eslint-disable** comments and fix errors
+- [ ] Add quantity field to product page
 - [ ] Check product quantity on page load
 - [ ] Show quantity (if low)
 - [ ] Use location of user to estimate tax
