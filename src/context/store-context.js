@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from 'prop-types';
 import React, { createContext, useState, useEffect } from 'react';
 import Client from 'shopify-buy';
@@ -24,11 +23,11 @@ const StoreContext = createContext({
 });
 
 function createNewCheckout(store) {
-  return store.client.checkout.create();
+  return store.checkout.create();
 }
 
 function fetchCheckout(store, id) {
-  return store.client.checkout.fetch(id);
+  return store.checkout.fetch(id);
 }
 
 function setCheckoutInState(checkout, setStore) {
@@ -53,7 +52,7 @@ const StoreContextProvider = ({ children }) => {
 
       if (existingCheckoutId) {
         try {
-          const checkout = await fetchCheckout(store, existingCheckoutId);
+          const checkout = await fetchCheckout(client, existingCheckoutId);
           // Make sure this cart hasn’t already been purchased.
           if (!checkout.completedAt) {
             setCheckoutInState(checkout, setStore);
@@ -64,12 +63,12 @@ const StoreContextProvider = ({ children }) => {
         }
       }
 
-      const newCheckout = await createNewCheckout(store);
+      const newCheckout = await createNewCheckout(client);
       setCheckoutInState(newCheckout, setStore);
     };
 
     initializeCheckout();
-  }, [store.client.checkout]);
+  }, []);
 
   return (
     <StoreContext.Provider
