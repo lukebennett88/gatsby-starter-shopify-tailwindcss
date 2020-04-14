@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import React, { createContext, useState, useEffect } from 'react';
 import Client from 'shopify-buy';
 
+const isBrowser = typeof window !== 'undefined';
+
 const SHOPIFY_CHECKOUT_STORAGE_KEY = 'shopify_checkout_id';
 
 const client = Client.buildClient({
@@ -30,7 +32,6 @@ function fetchCheckout(store, id) {
 }
 
 function setCheckoutInState(checkout, setStore) {
-  const isBrowser = typeof window !== 'undefined';
   if (isBrowser) {
     localStorage.setItem(SHOPIFY_CHECKOUT_STORAGE_KEY, checkout.id);
   }
@@ -46,7 +47,6 @@ const StoreContextProvider = ({ children }) => {
   useEffect(() => {
     const initializeCheckout = async () => {
       // Check for an existing cart.
-      const isBrowser = typeof window !== 'undefined';
       const existingCheckoutId = isBrowser
         ? localStorage.getItem(SHOPIFY_CHECKOUT_STORAGE_KEY)
         : null;
