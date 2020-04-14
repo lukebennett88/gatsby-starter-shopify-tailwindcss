@@ -1,4 +1,4 @@
-/* eslint-disable no-shadow */
+/* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from 'prop-types';
 import React, { createContext, useState, useEffect } from 'react';
 import Client from 'shopify-buy';
@@ -69,7 +69,7 @@ const StoreContextProvider = ({ children }) => {
     };
 
     initializeCheckout();
-  }, [store, setStore, store.client.checkout]);
+  }, [store.client.checkout]);
 
   return (
     <StoreContext.Provider
