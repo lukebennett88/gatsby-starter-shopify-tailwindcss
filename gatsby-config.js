@@ -88,6 +88,16 @@ module.exports = {
         // Storefront API".
         // See: https://help.shopify.com/api/custom-storefronts/storefront-api/getting-started#authentication
         accessToken: process.env.SHOPIFY_ACCESS_TOKEN,
+
+        // Number of records to fetch on each request when building the cache
+        // at startup. If your application encounters timeout errors during
+        // startup, try decreasing this number.
+        paginationSize: 250,
+
+        // List of collections you want to fetch.
+        // Possible values are: 'shop' and 'content'.
+        // Defaults to ['shop', 'content'].
+        includeCollections: ['shop'],
       },
     },
   ],
