@@ -4,21 +4,21 @@
 
 A Gatsby starter to get a headless Shopify store up and running quickly.
 
-I used @thetrevorharmon​​'s repository as a starting point.
-https://github.com/thetrevorharmon/sell-things-fast
+I used [@thetrevorharmon​​'s](https://github.com/thetrevorharmon/) repository as a starting point.
+<https://github.com/thetrevorharmon/sell-things-fast>
 
 PR's welcome.
 
 ## To do
 
-- [ ] Debug and fix cart error `Uncaught (in promise) Error: [{"message": "Throttled","extensions":{"code":"THROTTLED"}}]`
+- [x] Debug and fix cart error `Uncaught (in promise) Error: [{"message": "Throttled","extensions":{"code":"THROTTLED"}}]`
 - [ ] Get gallery working
 - [x] Style **Add to cart** button
-- [ ] Make **Add to cart** button visible on mobile
+- [ ] Make **Add to cart** button visible on mobile (it's hidden behind the image)
 - [ ] Dismiss **Add to cart** after set period of time
 - [ ] Style **Added to cart** popup
-- [ ] Make page responsive
-- [ ] Remove all **eslint-disable** comments and fix errors
+- [ ] Make site mobile responsive
+- [ ] Fix all ESLint warnings and errors and remove all **eslint-disable** comments
 - [ ] Add quantity field to product page
 - [ ] Check product quantity on page load
 - [ ] Show quantity (if low)
